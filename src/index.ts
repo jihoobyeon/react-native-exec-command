@@ -1,1 +1,1 @@
-export default { exec } from './exec';
+export * as exec from './exec';

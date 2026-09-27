@@ -32,7 +32,7 @@
     NSString *stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
     NSString *stderrString = [[NSString alloc] initWithData:stderrData encoding:NSUTF8StringEncoding];
 
-    // some commands write successed result into stderr(e. g. java -version), thus this will be proper workaround.
+    // some commands write succedded result into stderr(e. g. java -version), thus this will be proper workaround.
     NSString *result = stdoutString.length > 0 ? stdoutString : stderrString;
 
     resolve(result ?: @"");
