@@ -1,6 +1,6 @@
 {
   "name": "react-native-exec-command",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Exec CLI commands in React Native desktop app",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
@@ -15,38 +15,30 @@
   "files": [
     "src",
     "lib",
-    "android",
-    "ios",
+    "macos",
     "cpp",
     "*.podspec",
     "react-native.config.js",
-    "!ios/build",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties",
+    "!macos/build",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-exec-command-example",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "typecheck": "tsc"
   },
   "keywords": [
     "react-native",
-    "ios",
-    "android"
+    "macos",
+    "windows"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jihoobyeon/react-native-exec-command.git"
   },
-  "author": "Jihoo ByeonJ <jihoobyeon@gmail.com> (https://github.com/jihoobyeon)",
+  "author": "Jihoo Byeon <jihoobyeon@gmail.com> (https://github.com/jihoobyeon)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jihoobyeon/react-native-exec-command/issues"
@@ -60,19 +52,17 @@
     "@types/react": "^19.2.0",
     "del-cli": "^7.0.0",
     "react": "19.2.3",
-    "react-native": "0.86.2",
+    "react-native": "0.81.2",
     "react-native-builder-bob": "^0.43.1",
     "turbo": "^2.10.8",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-macos": "*"
   },
-  "workspaces": [
-    "example"
-  ],
-  "packageManager": "yarn@4.11.0",
+  "packageManager": "yarn@1.22.22",
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -94,10 +84,7 @@
   "codegenConfig": {
     "name": "ExecCommandSpec",
     "type": "modules",
-    "jsSrcsDir": "src",
-    "android": {
-      "javaPackageName": "com.execcommand"
-    }
+    "jsSrcsDir": "src"
   },
   "create-react-native-library": {
     "type": "turbo-module",
