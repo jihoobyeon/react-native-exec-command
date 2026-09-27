@@ -4,11 +4,11 @@
 - (void)exec:(NSString *)cwd
      command:(NSString *)command
         args:(NSArray *)args
-      silent:(NSNumber *)silent
+      silent:(BOOL)silent
      resolve:(RCTPromiseResolveBlock)resolve
       reject:(RCTPromiseRejectBlock)reject
 {
-  if ([silent boolValue]) { // silent: true
+  if (silent) { // silent: true
     NSTask *task = [[NSTask alloc] init];
     NSPipe *stdoutPipe = [NSPipe pipe];
     NSPipe *stderrPipe = [NSPipe pipe];

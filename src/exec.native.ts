@@ -1,5 +1,5 @@
 import ExecCommand from './NativeExecCommand';
 
-export default function exec(cwd: string, command: string, args?: string[], silent?: boolean): Promise<string> {
+export function exec(cwd: string, command: string, args?: string[], silent?: boolean): Promise<string> {
 	return ExecCommand.exec(cwd, command, args ?? [], silent ?? false);
 }
