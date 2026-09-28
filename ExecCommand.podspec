@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :osx => 14.0 }
+  s.platforms    = { :osx => "14.0" }
   s.source       = { :git => "https://github.com/jihoobyeon/react-native-exec-command.git", :tag => "#{s.version}" }
 
   s.source_files = "macos/**/*.{h,m,mm,swift,cpp}"

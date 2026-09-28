@@ -3,32 +3,16 @@
   "version": "1.0.0",
   "description": "Exec CLI commands in React Native desktop app",
   "main": "./lib/module/index.js",
-  "types": "./lib/typescript/src/index.d.ts",
-  "exports": {
-    ".": {
-      "react-native-exec-command-source": "./src/index.ts",
-      "types": "./lib/typescript/src/index.d.ts",
-      "default": "./lib/module/index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "files": [
     "src",
-    "lib",
     "macos",
-    "cpp",
     "*.podspec",
-    "react-native.config.js",
     "!macos/build",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
     "!**/.*"
   ],
-  "scripts": {
-    "prepare": "bob build",
-    "typecheck": "tsc"
-  },
   "keywords": [
     "react-native",
     "macos",
@@ -53,7 +37,6 @@
     "del-cli": "^7.0.0",
     "react": "19.2.3",
     "react-native": "0.81.6",
-    "react-native-builder-bob": "^0.43.1",
     "react-native-macos": "0.81.9",
     "turbo": "^2.10.8",
     "typescript": "^6.0.3"
@@ -64,24 +47,6 @@
     "react-native-macos": "*"
   },
   "packageManager": "yarn@1.22.22",
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      [
-        "module",
-        {
-          "esm": true
-        }
-      ],
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
-  },
   "codegenConfig": {
     "name": "ExecCommandSpec",
     "type": "modules",
