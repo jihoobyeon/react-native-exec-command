@@ -1,5 +1,14 @@
 #import "ExecCommand.h"
 
+static NSString *ShellQuote(NSString *value)
+{
+  NSString *escaped =
+    [value stringByReplacingOccurrencesOfString:@"'"
+                                    withString:@"'\\''"];
+
+  return [NSString stringWithFormat:@"'%@'", escaped];
+}
+
 @implementation ExecCommand
 - (void)exec:(NSString *)cwd
      command:(NSString *)command
@@ -40,15 +49,6 @@
   }
   
   else { // silent: false
-    static NSString *ShellQuote(NSString *value)
-    {
-      NSString *escaped =
-        [value stringByReplacingOccurrencesOfString:@"'"
-                                        withString:@"'\\''"];
-
-      return [NSString stringWithFormat:@"'%@'", escaped];
-    }
-    
     NSMutableArray<NSString *> *parts = [NSMutableArray array];
     [parts addObject:ShellQuote(command)];
 
