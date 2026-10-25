@@ -56,47 +56,56 @@ static NSString *ShellQuote(NSString *value)
       [parts addObject:ShellQuote(arg)];
     }
 
-    NSString *shellCommand =
-      [NSString stringWithFormat:@"cd %@ && %@",
-        ShellQuote(cwd),
-        [parts componentsJoinedByString:@" "]];
-        
-    NSString *escapedForAppleScript =
-      [[shellCommand stringByReplacingOccurrencesOfString:@"\\"
-                                               withString:@"\\\\"]
-        stringByReplacingOccurrencesOfString:@"\""
-                                  withString:@"\\\""];
+    NSString *identifier = [NSUUID UUID].UUIDString;
+		NSString *signalPath = [NSString stringWithFormat: @"/tmp/ccb-%@", identifier]; // for close termnial window after run complete
+		NSString *shellCommand =
+			[NSString stringWithFormat:@"cd %@ && %@; touch %@; exit",
+				ShellQuote(cwd),
+				[parts componentsJoinedByString:@" "],
+				signalPath];
+				
+		NSString *escapedForAppleScript =
+			[[shellCommand stringByReplacingOccurrencesOfString:@"\\"
+																							 withString:@"\\\\"]
+				stringByReplacingOccurrencesOfString:@"\""
+																	withString:@"\\\""];
 
-    NSString *script = [NSString stringWithFormat:
-      @"tell application \"Terminal\"\n"
-       "activate\n"
-       "do script \"%@\"\n"
-       "end tell",
-      escapedForAppleScript];
-      
-    NSTask *task = [[NSTask alloc] init];
-    task.executableURL = [NSURL fileURLWithPath:@"/usr/bin/osascript"];
+		NSString *script = [NSString stringWithFormat:
+			@"tell application \"Terminal\"\n"
+			 "activate\n"
+			 "set targetTab to do script \"%@\"\n"
+			 "repeat until (do shell script \"test -f %@ && echo yes || echo no\") is \"yes\"\n"
+			 "delay 0.1\n"
+			 "end repeat\n"
+			 "set targetWindow to first window whose tabs contains targetTab\n"
+			 "close targetWindow\n"
+			 "end tell",
+			escapedForAppleScript, signalPath];
+			
+		NSTask *task = [[NSTask alloc] init];
+		task.executableURL = [NSURL fileURLWithPath:@"/usr/bin/osascript"];
 
-    task.arguments = @[
-      @"-e",
-      script
-    ];
+		task.arguments = @[
+			@"-e",
+			script
+		];
 
-    NSError *error = nil;
+		NSError *error = nil;
 
-    if (![task launchAndReturnError:&error]) {
-      reject(@"TERMINAL_FAILED", error.localizedDescription, error);
-      return;
-    }
+		if (![task launchAndReturnError:&error]) {
+			reject(@"TERMINAL_FAILED", error.localizedDescription, error);
+			return;
+		}
 
-    [task waitUntilExit];
+		[task waitUntilExit];
 
-    if (task.terminationStatus != 0) {
-      reject(@"TERMINAL_FAILED", @"Failed to open Terminal.", nil);
-      return;
-    }
+		if (task.terminationStatus != 0) {
+			reject(@"TERMINAL_FAILED", @"Failed to open Terminal.", nil);
+			return;
+		}
 
-    resolve(@"");
+		[[NSFileManager defaultManager] removeItemAtPath:signalPath error:nil]; // delete signal file
+		resolve(@"");
   }
 }
 
