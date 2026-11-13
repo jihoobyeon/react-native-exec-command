@@ -6,19 +6,32 @@ Exec CLI commands in React Native desktop app
 
 
 ```sh
-npm install react-native-exec-command
+yarn add react-native-exec-command
+
+// Windows
+npx react-native autolink-windows
+// macOS
+npx pod-install macos
 ```
 
 
 ## Usage
 
 
+`exec` function gets three arguments:\
+first one is string of absolute path which the terminal(Windows: cmd, macOS: zsh) would open.\
+second string is the command. and last, optional array of string is arguments for the command.
 ```js
-import { multiply } from 'react-native-exec-command';
+import exec from 'react-native-exec-command';
 
-// ...
-
-const result = multiply(3, 7);
+export default function App() {
+	return (
+		<View>
+			<Button title='Windows' onPress={ async () => await exec('C:\\Users\\user\\Desktop', 'dir') } />
+			<Button title='macOS' onPress={ async () => await exec('/Users/user/Desktop', 'ls', ['-a']) } />
+		</View>
+	);
+};
 ```
 
 
