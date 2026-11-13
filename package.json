@@ -1,11 +1,12 @@
 {
   "name": "react-native-exec-command",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Exec CLI commands in React Native desktop app",
   "main": "./src/index.ts",
   "files": [
     "src",
     "macos",
+    "windows",
     "*.podspec",
     "!macos/build",
     "!**/__tests__",
